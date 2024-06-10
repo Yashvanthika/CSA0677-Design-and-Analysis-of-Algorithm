@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+typedef struct Node 
+{
+    int val;
+    struct Node* next;
+} Node;
+
+Node* createNode(int val) 
+{
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->val = val;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void addEdge(Node** adjList, int u, int v) 
+{
+    Node* newNode = createNode(v);
+    newNode->next = adjList[u];
+    adjList[u] = newNode;
+
+    newNode = createNode(u);
+    newNode->next = adjList[v];
+    adjList[v] = newNode;
+}
+
+int dfs(Node** adjList, bool* hasApple, int node, int parent) {
+    int time = 0;
+    Node* adj = adjList[node];
+    while (adj != NULL) {
+        if (adj->val != parent) {
+            time += dfs(adjList, hasApple, adj->val, node);
+        }
+        adj = adj->next;
+    }
+    if ((time > 0 || hasApple[node]) && node != 0) {
+        time += 2;
+    }
+    return time;
+}
+
+int minTime(int n, int** edges, int edgesSize, bool* hasApple, int hasAppleSize) {
+    Node** adjList = (Node*)malloc(n * sizeof(Node));
+    for (int i = 0; i < n; i++) {
+        adjList[i] = NULL;
+    }
+    for (int i = 0; i < edgesSize; i++) {
+        addEdge(adjList, edges[i][0], edges[i][1]);
+    }
+    int result = dfs(adjList, hasApple, 0, -1);
+    for (int i = 0; i < n; i++) {
+        free(adjList[i]);
+    }
+    free(adjList);
+    return result;
+}
+
+int main() {
+    int n1 = 7;
+    int edges1[6][2] = {{0, 1}, {0, 2}, {1, 4}, {1, 5}, {2, 3}, {2, 6}};
+    int* edges1Ptrs[6] = {edges1[0], edges1[1], edges1[2], edges1[3], edges1[4], edges1[5]};
+    bool hasApple1[7] = {false, false, true, false, true, true, false};
+    printf("%d\n", minTime(n1, edges1Ptrs, 6, hasApple1, 7)); 
+
+    int n2 = 7;
+    int edges2[6][2] = {{0, 1}, {0, 2}, {1, 4}, {1, 5}, {2, 3}, {2, 6}};
+    int* edges2Ptrs[6] = {edges2[0], edges2[1], edges2[2], edges2[3], edges2[4], edges2[5]};
+    bool hasApple2[7] = {false, false, true, false, false, true, false};
+    printf("%d\n", minTime(n2, edges2Ptrs, 6, hasApple2, 7)); 
+
+    return 0;
+}
