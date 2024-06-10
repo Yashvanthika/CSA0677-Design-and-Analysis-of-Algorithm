@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+// Function to find the maximum difference between a and b
+int maxDiff(int num) {
+    // Convert num to a string to manipulate its digits
+    char str[12]; // Assuming maximum 32-bit integer, so at most 11 digits
+    sprintf(str, "%d", num);
+    
+    // Find the maximum digit in the number
+    int maxDigit = 0;
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] - '0' > maxDigit) {
+            maxDigit = str[i] - '0';
+        }
+    }
+    
+    // Replace all occurrences of maxDigit with 9 to get a
+    int a = 0;
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] - '0' == maxDigit) {
+            a = a * 10 + 9;
+        } else {
+            a = a * 10 + (str[i] - '0');
+        }
+    }
+    
+    // Replace all occurrences of maxDigit with 1 if it's not leading to get b
+    int b = 0;
+    int leading = 1;
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] - '0' == maxDigit) {
+            if (leading) {
+                b = b * 10 + 1;
+            } else {
+                b = b * 10 + 0;
+            }
+        } else {
+            b = b * 10 + (str[i] - '0');
+            if (str[i] - '0' != 0) {
+                leading = 0;
+            }
+        }
+    }
+    
+    // Return the maximum difference between a and b
+    return a - b;
+}
+
+int main() {
+    int num = 555;
+    printf("Output: %d\n", maxDiff(num));
+    return 0;
+}
