@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+char** buildArray(int* target, int targetSize, int n, int* returnSize) 
+{
+    char** result = (char*)malloc(2 * n * sizeof(char));
+    int index = 0;
+    int targetIndex = 0;
+    
+    for (int i = 1; i <= n && targetIndex < targetSize; i++) 
+	{
+        result[index] = (char*)malloc(5 * sizeof(char)); 
+		strcpy(result[index++], "Push");        
+        if (i != target[targetIndex]) 
+		{
+            result[index] = (char*)malloc(4 * sizeof(char)); 
+            strcpy(result[index++], "Pop");
+        }
+		else 
+		{
+            targetIndex++;
+        }
+    }
+    *returnSize = index;
+    return result;
+}
+int main() 
+{
+    int target1[] = {1, 3};
+    int returnSize1;
+    char** result1 = buildArray(target1, 2, 3, &returnSize1);
+    for (int i = 0; i < returnSize1; i++) 
+	{
+        printf("%s\n", result1[i]);
+        free(result1[i]);
+    }
+    free(result1);
+    int target2[] = {1, 2, 3};
+    int returnSize2;
+    char** result2 = buildArray(target2, 3, 3, &returnSize2);    
+    for (int i = 0; i < returnSize2; i++) 
+	{
+        printf("%s\n", result2[i]);
+        free(result2[i]);
+    }
+    free(result2);
+    int target3[] = {1, 2};
+    int returnSize3;
+    char**int returnSize3;
+    char** result3 = buildArray(target3, 2, 4, &returnSize3);
+    
+    for (int i = 0; i < returnSize3; i++) {
+        printf("%s\n", result3[i]);
+        free(result3[i]);
+    }
+    free(result3);
+
+    return 0;
+}
