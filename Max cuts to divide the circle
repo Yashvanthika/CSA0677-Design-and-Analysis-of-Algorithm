@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int minCutsForNSlices(int n) {
+    if (n <= 0) {
+        printf("Invalid input. Please provide a positive integer.\n");
+        return -1;
+    }
+
+    // Each slice requires n-1 cuts to separate it from the others
+    int minCuts = n - 1;
+    
+    return minCuts;
+}
+
+int main() {
+    int n = 8; // Number of slices
+    int minCuts = minCutsForNSlices(n);
+
+    if (minCuts != -1) {
+        printf("Minimum number of cuts needed to divide the circle into %d equal slices: %d\n", n, minCuts);
+    }
+
+    return 0;
+}
