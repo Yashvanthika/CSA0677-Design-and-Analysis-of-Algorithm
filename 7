@@ -1,0 +1,33 @@
+
+#include <stdio.h>
+int bis(int a[],int n,int target)
+{
+    int low,high,mid;
+    low=0;
+    high=n-1;
+    while(high>=low)
+    {
+        mid=(low+high)/2;
+        if(a[mid]==target)
+        return mid;
+        else if(a[mid]<target)
+         low=mid+1;
+         else 
+         high=mid-1;
+    }
+}
+int main()
+{
+    int a[10],target,n,pos,i;
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    scanf("%d",&a[i]);
+    printf("enter the target:");
+    scanf("%d",&target);
+    pos=bis(a,n,target);
+    if(pos<n)
+    printf("the element is found in the position %d",pos);
+    else 
+    printf("the element is not found");
+}
+
